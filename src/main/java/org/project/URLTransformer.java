@@ -11,11 +11,10 @@ import java.net.URL;
 public class URLTransformer {
 
     public String addHost(HttpServletRequest request, String shortenedUrl) {
-        return request.getRequestURL().toString() + shortenedUrl;
+        return extractRequestURL(request) + shortenedUrl;
     }
 
-    public String addProtocolIfMissing(String redirectUrl) {
-        String redirectUrlWithProtocol = redirectUrl;
+    public String addProtocolIfAbsent(String redirectUrl) {
         try {
             URL url = new URL(redirectUrl);
             return url.toString();
@@ -27,5 +26,8 @@ public class URLTransformer {
         }
     }
 
+    protected String extractRequestURL(HttpServletRequest request) {
+        return request.getRequestURL().toString();
+    }
 
 }

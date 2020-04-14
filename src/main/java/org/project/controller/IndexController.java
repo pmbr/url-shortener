@@ -35,7 +35,7 @@ public class IndexController {
     @PostMapping("/")
     public String shortUrl(HttpServletRequest request, String redirectURL, ModelMap model) {
         try {
-            String shortenedURL = repository.shortenedUrl(urlTransformer.addProtocolIfMissing(redirectURL));
+            String shortenedURL = repository.shortenedUrl(urlTransformer.addProtocolIfAbsent(redirectURL));
             model.addAttribute("shortenedURL", urlTransformer.addHost(request, shortenedURL));
             model.addAttribute("errorMessage", "");
         } catch (BadRedirectURLException e) {
