@@ -1,0 +1,23 @@
+<html>
+
+    <head>
+        <title>URL Shortener</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+
+    <body>
+        <span th:text="${errorMessage}"></span>
+        <form action="/" method="post">
+            <br>
+            <label for="redirectURL">Redirect URL</label>
+            <br>
+            <input id="redirectURL" name="redirectURL"/>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+        <br>
+        <br>
+        <span th:text="${shortenedURL}"></span>
+    </body>
+
+</html>
