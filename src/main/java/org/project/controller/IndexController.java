@@ -1,6 +1,7 @@
 package org.project.controller;
 
 import org.project.URLTransformer;
+import org.project.exception.BadRedirectURLException;
 import org.project.repository.Repository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,7 +34,7 @@ public class IndexController {
         try {
             String shortenedURL = repository.shortenedUrl(urlTransformer.addProtocolIfMissing(redirectURL));
             model.addAttribute("shortenedURL", urlTransformer.addHost(request, shortenedURL));
-        } catch (MalformedURLException mue) {
+        } catch (BadRedirectURLException e) {
             model.addAttribute("errorMessage", "Enter a valid URL");
         }
         return "index";

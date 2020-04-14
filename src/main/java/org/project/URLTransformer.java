@@ -1,5 +1,6 @@
 package org.project;
 
+import org.project.exception.BadRedirectURLException;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ public class URLTransformer {
         return request.getRequestURL().toString() + shortenedUrl;
     }
 
-    public String addProtocolIfMissing(String redirectUrl) throws MalformedURLException {
+    public String addProtocolIfMissing(String redirectUrl) {
         String redirectUrlWithProtocol = redirectUrl;
         try {
             URL url = new URL(redirectUrl);
@@ -22,7 +23,7 @@ public class URLTransformer {
             if (mue.getMessage().contains("no protocol")) {
                 return "http://" + redirectUrl;
             }
-            throw mue;
+            throw new BadRedirectURLException(redirectUrl);
         }
     }
 
