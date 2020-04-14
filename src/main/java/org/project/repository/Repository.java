@@ -3,6 +3,8 @@ package org.project.repository;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import org.project.exception.ShortenedURLNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,26 +14,30 @@ import static java.lang.String.valueOf;
 @Component
 public class Repository {
 
+    Logger logger = LoggerFactory.getLogger(Repository.class);
+
     BiMap<String, String> urlMap = HashBiMap.create();
 
     private AtomicInteger shortenedUrlGenerator = new AtomicInteger(1);
 
-    public String shortenedUrl(String redirectUrl) {
-        String shortenedUrl = urlMap.get(redirectUrl);
-        if (shortenedUrl != null) {
-            return shortenedUrl;
+    public String shortenedUrl(String redirectURL) {
+        String shortenedURL = urlMap.get(redirectURL);
+        if (shortenedURL == null) {
+            shortenedURL = valueOf(shortenedUrlGenerator.getAndAdd(1));
+            urlMap.putIfAbsent(redirectURL, shortenedURL);
+            shortenedURL = urlMap.get(redirectURL);
         }
-        shortenedUrl = valueOf(shortenedUrlGenerator.getAndAdd(1));
-        urlMap.putIfAbsent(redirectUrl, shortenedUrl);
-        return urlMap.get(redirectUrl);
+        logger.info("Generated shortened URL {} for redirect URL {}", shortenedURL, redirectURL);
+        return shortenedURL;
     }
 
-    public String redirectUrl(String shortenedUrl) {
-        String redirectUrl = urlMap.inverse().get(shortenedUrl);
-        if (redirectUrl == null) {
-            throw new ShortenedURLNotFoundException(shortenedUrl);
+    public String redirectUrl(String shortenedURL) {
+        String redirectURL = urlMap.inverse().get(shortenedURL);
+        if (redirectURL == null) {
+            throw new ShortenedURLNotFoundException(shortenedURL);
         }
-        return redirectUrl;
+        logger.info("Returned redirect URL {} for shortened URL {}", redirectURL, shortenedURL);
+        return redirectURL;
     }
 
 }
