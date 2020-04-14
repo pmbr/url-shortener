@@ -19,7 +19,7 @@ public class RepositoryTest {
     @Test
     public void inputNewRedirectUrlGeneratesNewShortenedUrl() {
         String redirectUrl = "www.google.com";
-        String shortenedUrl = repository.shortenedUrl(redirectUrl);
+        Integer shortenedUrl = repository.shortenedUrl(redirectUrl);
         assertNotNull(shortenedUrl);
     }
 
@@ -27,10 +27,10 @@ public class RepositoryTest {
     public void inputSameRedirectUrlTwiceReturnsPreviouslyGeneratedShortenedUrl() {
         String redirectUrl = "www.apple.com";
 
-        String shortenedUrl = repository.shortenedUrl(redirectUrl);
+        Integer shortenedUrl = repository.shortenedUrl(redirectUrl);
         assertNotNull(shortenedUrl);
 
-        String repositoryShortenedUrl = repository.shortenedUrl(redirectUrl);
+        Integer repositoryShortenedUrl = repository.shortenedUrl(redirectUrl);
         assertNotNull(repositoryShortenedUrl);
 
         assertEquals(repositoryShortenedUrl, shortenedUrl);
@@ -40,7 +40,7 @@ public class RepositoryTest {
     public void searchRedirectUrlForShortenedUrlPresentOnRepositoryReturnsExpectedRedirectUrl() {
         String redirectUrl = "www.yahoo.com";
 
-        String shortenedUrl = repository.shortenedUrl(redirectUrl);
+        Integer shortenedUrl = repository.shortenedUrl(redirectUrl);
         assertNotNull(shortenedUrl);
 
         String repositoryRedirectUrl = repository.redirectUrl(shortenedUrl);
@@ -51,8 +51,8 @@ public class RepositoryTest {
 
     @Test(expected = ShortenedUrlNotFoundException.class)
     public void searchRedirectUrlForShortenedUrlMissingOnRepositoryReturnsException() {
-        String redirectUrl = "www.amazon.com";
-        repository.shortenedUrl(redirectUrl);
+        Integer shortenedUrl = Integer.MAX_VALUE;
+        repository.redirectUrl(shortenedUrl);
     }
 
 }
