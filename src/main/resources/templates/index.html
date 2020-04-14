@@ -9,7 +9,6 @@
         <p style="font-size:30px;color:blue;">URL Shortener</p>
         <span style="color:red;font-weight:bold" th:text="${errorMessage}"></span>
         <form action="/" method="post">
-            <br>
             <label for="redirectURL">Redirect URL</label>
             <br>
             <input id="redirectURL" name="redirectURL"/>
@@ -17,8 +16,9 @@
             <input type="submit" value="Submit">
         </form>
         <br>
+        <span th:style='${shortenedURL == "" ? "visibility:hidden" : "visibility:"}'>Shortened URL</span>
         <br>
-        <span th:text="${shortenedURL}"></span>
+        <a th:href="${shortenedURL}" target=”_blank”><span th:text="${shortenedURL}"></span></a>
     </body>
 
 </html>
