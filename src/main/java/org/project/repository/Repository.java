@@ -18,12 +18,12 @@ public class Repository {
 
     BiMap<String, String> urlMap = HashBiMap.create();
 
-    private AtomicInteger shortenedUrlGenerator = new AtomicInteger(1);
+    private AtomicInteger shortenedUrlGenerator = new AtomicInteger(0);
 
     public String shortenedUrl(String redirectURL) {
         String shortenedURL = urlMap.get(redirectURL);
         if (shortenedURL == null) {
-            shortenedURL = valueOf(shortenedUrlGenerator.getAndAdd(1));
+            shortenedURL = valueOf(shortenedUrlGenerator.incrementAndGet());
             urlMap.putIfAbsent(redirectURL, shortenedURL);
             shortenedURL = urlMap.get(redirectURL);
         }
