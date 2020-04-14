@@ -33,6 +33,7 @@ public class IndexController {
         try {
             String shortenedURL = repository.shortenedUrl(urlTransformer.addProtocolIfMissing(redirectURL));
             model.addAttribute("shortenedURL", urlTransformer.addHost(request, shortenedURL));
+            model.addAttribute("errorMessage", "");
         } catch (BadRedirectURLException e) {
             model.addAttribute("errorMessage", "Enter a valid URL");
         }
