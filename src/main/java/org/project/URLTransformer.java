@@ -10,6 +10,9 @@ import java.net.URL;
 @Component
 public class URLTransformer {
 
+    private final String BASE_PROTOCOL = "http://";
+    private final String NO_PROTOCOL_MESSAGE = "no protocol";
+
     public String addHost(HttpServletRequest request, String shortenedUrl) {
         return extractRequestURL(request) + shortenedUrl;
     }
@@ -19,8 +22,8 @@ public class URLTransformer {
             URL url = new URL(redirectUrl);
             return url.toString();
         } catch (MalformedURLException mue) {
-            if (mue.getMessage().contains("no protocol")) {
-                return "http://" + redirectUrl;
+            if (mue.getMessage().contains(NO_PROTOCOL_MESSAGE)) {
+                return BASE_PROTOCOL + redirectUrl;
             }
             throw new BadRedirectURLException(redirectUrl);
         }
