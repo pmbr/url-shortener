@@ -4,6 +4,12 @@ URL Shortener
 
 Use this application to create shortened version of URLs
 
+#### How to build it
+
+From command line run command below:
+
+./gradlew clean build
+
 #### How to run it
 
 From command line run command below:
@@ -25,6 +31,12 @@ Copy the shortened URL, open a new browser or tab, past shortened URL and press 
 You will be redirected.
 
 #### Comments about project
+
+- Spring and Spring Boot were used as frameworks for dependency injection and to manage application flow
+- Thymeleaf was used as template engine
+- Guava BiMap was selected as data structure implementation to store map of redirect and shortened URLS. Reason is that it allows lookup by both key and value using hash values.
+- It worth mentioning that shortened URL is not a hash of redirect URL, it's a simple sequential number, to avoid possibility of two distinct redirect URLs with same hash value.  
+- Unit testing are using JUnit and Mockito 
 
 Implementation has some limitations, as listed below:
 
