@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -34,15 +35,25 @@ public class IndexController {
 
     @PostMapping("/")
     public String shortUrl(HttpServletRequest request, String redirectURL, ModelMap model) {
-        try {
-            String shortenedURL = repository.shortenedUrl(urlTransformer.addProtocolIfAbsent(redirectURL));
-            model.addAttribute("shortenedURL", urlTransformer.addHost(request, shortenedURL));
-            model.addAttribute("errorMessage", "");
-        } catch (BadRedirectURLException e) {
-            logger.error("Bad redirect URL", e);
-            model.addAttribute("errorMessage", "Enter a valid URL");
+        if (isValidRequest(redirectURL, model)) {
+            try {
+                String shortenedURL = repository.shortenedUrl(urlTransformer.addProtocolIfAbsent(redirectURL));
+                model.addAttribute("shortenedURL", urlTransformer.addHost(request, shortenedURL));
+                model.addAttribute("errorMessage", "");
+            } catch (BadRedirectURLException e) {
+                logger.error("Bad redirect URL", e);
+                model.addAttribute("errorMessage", "Enter a valid URL");
+            }
         }
         return "index";
+    }
+
+    private boolean isValidRequest(String redirectURL, ModelMap model) {
+        if (StringUtils.isEmpty(redirectURL)) {
+            model.addAttribute("errorMessage", "Please, enter a Redirect URL");
+            return false;
+        }
+        return true;
     }
 
 }
