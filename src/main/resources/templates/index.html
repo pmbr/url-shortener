@@ -6,7 +6,8 @@
     </head>
 
     <body>
-        <span th:text="${errorMessage}"></span>
+        <p style="font-size:30px;color:blue;">URL Shortener</p>
+        <span style="color:red;font-weight:bold" th:text="${errorMessage}"></span>
         <form action="/" method="post">
             <br>
             <label for="redirectURL">Redirect URL</label>
